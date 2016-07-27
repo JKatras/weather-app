@@ -56,7 +56,6 @@ h1 {
 }
 
 #unit-switch i {
-  /*   transform:rotate(-180deg); */
   transition-duration: 0.5s;
   transition-property: transform;
   text-shadow: 0 2px 1px #333;
