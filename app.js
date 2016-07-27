@@ -1,50 +1,53 @@
-//Icons from: http://erikflowers.github.io/weather-icons/
-//Open Weather: http://openweathermap.org/current#geo
-$(document).ready(function() {
-  var isFahrenheit = true;
+// //Icons from: http://erikflowers.github.io/weather-icons/
+// //Open Weather: http://openweathermap.org/current#geo
 
-  init();
-  $('#unit-switch').on('click', function() {
+var isFahrenheit = true;
 
-    $('#unit-switch i').toggleClass("spin");
-    $('.temp-unit').toggleClass("current");
-    isFahrenheit = !isFahrenheit;
+$(document).ready(function(){
+  getIP();
+});
 
-    if (isFahrenheit) {
-      $('#temp').html(Math.round(f) + "&deg;");
-
-    } else {
-      $('#temp').html(c + "&deg;");
-    }
-  });
-})
-
-function init() {
-  if (navigator.geolocation) {
-    //var lat = position.coords.latitude;
-    //var long = position.coords.longitude;
-    navigator.geolocation.getCurrentPosition(getWeather);
-  }
+function getIP(){ 
+ $.get("http://ip-api.com/json", function(data){
+   var city = data.city;
+   var region = data.region;
+   var lat = data.lat;
+   var lon = data.lon;
+   getWeather(city, region, lat, lon);
+ });
 }
 
-function getWeather(position) {
-  //function getWeather() {
-  var lat = position.coords.latitude;
-  var long = position.coords.longitude;
-  var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&units=imperial&APPID=4882497d6562dbf2104b6b7fbb536f19';
+$('#unit-switch').on('click', function() {
 
+  $('#unit-switch i').toggleClass("spin");
+  $('.temp-unit').toggleClass("current");
+  isFahrenheit = !isFahrenheit;
+
+  if (isFahrenheit) {
+    $('#temp').html(Math.round(f) + "&deg;");
+  } else {
+    $('#temp').html(c + "&deg;");
+  }
+});
+
+function getWeather(city, region, lat, lon) {
+  var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + lon + '&units=imperial&APPID=4882497d6562dbf2104b6b7fbb536f19';
+  console.log(url);
   $.get(url, function(data) {
     window.f = data.main.temp;
     window.c = Math.round((data.main.temp - 32) * 5 / 9);
     var weatherId = data.weather[0].id;
-    $('#city').text(data.name);
+    $('#city').text(city + ', ' + region);
     $('#icon').addClass(getIcon(weatherId));
     $('#desc').text(data.weather[0].description);
     $('#temp').html(Math.round(f) + "&deg;");
     $('#temp-unit').text("F");
+    
+  })
+  .done(function(){
     $('#data').fadeIn(400);
   });
-};
+}
 
 //**I now realize this compatability with Open Weather Map is already built in at: https://erikflowers.github.io/weather-icons/api-list.html
 //Oh well...

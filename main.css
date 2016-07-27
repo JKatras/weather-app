@@ -15,12 +15,15 @@ body {
   margin-top: 4%;
 }
 
+#data {
+  display:none;
+}
 h1 {
   font-size: 3em;
 }
 
 #icon {
-  font-size: 8em;
+  font-size: 6em;
   margin-bottom: 20px;
   color: #fff;
   text-shadow: 0 2px 1px #333;
@@ -32,7 +35,7 @@ h1 {
 
 #temp,
 .temp-unit {
-  font-size: 3.5em;
+  font-size: 3em;
 }
 
 #temp,
@@ -72,17 +75,20 @@ h1 {
 }
 
 @media (max-width:500px){
-/*   #icon {
-    margin-bottom:10px;
-    
-  } */
+  
   #desc {
     margin:10px 0;
+    
   }
   #temp {
     margin:10px 0 0;
+    font-size:2em;
+  }
+  .temp-unit, #unit-switch {
+    font-size:2.5em;
   }
   h1{
+    font-size:2.5em;
     margin-top:0.45em;
     margin-bottom:0.45em;
   }
